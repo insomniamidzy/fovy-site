@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import ChatbotScript from '@/components/ChatbotScript'
 
 interface Task {
   id: number
@@ -159,6 +160,20 @@ export default function Home() {
           </div>
         </div>
       </div>
+      
+      {/* Add Chatbot */}
+      <ChatbotScript />
+      
+      {/* Add Chatbot Styles */}
+      <style jsx global>{`
+        #dify-chatbot-bubble-button {
+          background-color: #1C64F2 !important;
+        }
+        #dify-chatbot-bubble-window {
+          width: 24rem !important;
+          height: 40rem !important;
+        }
+      `}</style>
     </div>
   )
 }
