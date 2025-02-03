@@ -1,101 +1,164 @@
-import Image from "next/image";
+'use client'
+import { useState } from 'react'
+
+interface Task {
+  id: number
+  text: string
+  completed: boolean
+  category: 'specific-time' | 'do-it-now' | 'next-action'
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [newTask, setNewTask] = useState('')
+  const [activeTab, setActiveTab] = useState<'specific-time' | 'do-it-now' | 'next-action'>('do-it-now')
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const addTask = () => {
+    if (newTask.trim()) {
+      setTasks([...tasks, { 
+        id: Date.now(), 
+        text: newTask, 
+        completed: false,
+        category: activeTab
+      }])
+      setNewTask('')
+    }
+  }
+
+  const toggleTask = (id: number) => {
+    setTasks(tasks.map(task => 
+      task.id === id ? { ...task, completed: !task.completed } : task
+    ))
+  }
+
+  const filteredTasks = tasks.filter(task => task.category === activeTab)
+
+  const getTabTitle = () => {
+    switch(activeTab) {
+      case 'specific-time':
+        return 'Tasks for Specific Time'
+      case 'do-it-now':
+        return 'Done in Less than 2min'
+      case 'next-action':
+        return 'Next Action Tasks'
+    }
+  }
+
+  const getTabSubtitle = () => {
+    switch(activeTab) {
+      case 'specific-time':
+        return 'Schedule it'
+      case 'do-it-now':
+        return 'Do it Now'
+      case 'next-action':
+        return 'Plan your next move'
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-3xl mx-auto pt-8 px-4">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-4 text-black">FOVY Work Manager</h1>
+          <div className="flex gap-4 mb-6">
+            <button 
+              onClick={() => setActiveTab('specific-time')}
+              className={`px-4 py-2 rounded transition-colors ${
+                activeTab === 'specific-time' 
+                  ? 'bg-gray-100 text-black' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Specific Time
+            </button>
+            <button 
+              onClick={() => setActiveTab('do-it-now')}
+              className={`px-4 py-2 rounded transition-colors ${
+                activeTab === 'do-it-now' 
+                  ? 'bg-gray-100 text-black' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Do It Now
+            </button>
+            <button 
+              onClick={() => setActiveTab('next-action')}
+              className={`px-4 py-2 rounded transition-colors ${
+                activeTab === 'next-action' 
+                  ? 'bg-gray-100 text-black' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Next Action List
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Main Task Container */}
+        <div className="bg-white rounded-lg p-6 shadow-sm">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                <span className="text-gray-400">⏰</span>
+              </div>
+              <div>
+                <h2 className="font-semibold text-black">{getTabTitle()}</h2>
+                <p className="text-sm text-gray-500">{getTabSubtitle()}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Add Task Input */}
+          <div className="mb-4 flex gap-2">
+            <input
+              type="text"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  addTask()
+                }
+              }}
+              placeholder={`Add a new task to ${activeTab.replace('-', ' ')}...`}
+              className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent text-black"
+            />
+            <button
+              onClick={addTask}
+              className="bg-gray-100 text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors"
+            >
+              +
+            </button>
+          </div>
+
+          {/* Task List */}
+          <div className="space-y-3">
+            {filteredTasks.map(task => (
+              <div 
+                key={task.id}
+                className="flex items-center justify-between p-3 border-b hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => toggleTask(task.id)}
+                    className="w-5 h-5 rounded border-gray-300 text-gray-800 focus:ring-gray-800"
+                  />
+                  <span className={task.completed ? 'text-gray-400 line-through' : 'text-black'}>
+                    {task.text}
+                  </span>
+                </div>
+              </div>
+            ))}
+            {filteredTasks.length === 0 && (
+              <div className="text-center text-gray-500 py-4">
+                No tasks yet in {activeTab.replace('-', ' ')}. Type a task and press Enter or +
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
