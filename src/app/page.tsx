@@ -1,18 +1,10 @@
 'use client'
-import { useState, useEffect } from 'react'
+import {  useEffect } from 'react'
 import { useRouter } from "next/navigation";
 
-import { redirect } from "next/navigation";
 
 
  
-
-interface Task {
-  id: number
-  text: string
-  completed: boolean
-  category: 'specific-time' | 'do-it-now' | 'next-action' | 'Focus-Mode'
-}
 
 export default function Home() {
   const router = useRouter();

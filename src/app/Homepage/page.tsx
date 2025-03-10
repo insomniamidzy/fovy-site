@@ -6,7 +6,6 @@ import Image from "next/image";
 
 export default function FullPageScroll() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { margin: "-50% 0px -50% 0px" });
 
   // 🔹 記錄滾動狀態，確保顯示 / 消失的邏輯
   const [isVisible, setIsVisible] = useState(false);
