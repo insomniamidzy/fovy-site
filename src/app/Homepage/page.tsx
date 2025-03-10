@@ -50,7 +50,7 @@ export default function FullPageScroll() {
           <div className="flex flex-col gap-4 p-6 items-center justify-center w-[500px]">
             <h1 className="text-6xl font-bold mb-4 text-gray-100">Map Your Skills, Master Your Future.</h1>
             <p className="text-xl text-gray-300 mb-6">
-              Empowers freelancers' confidence and career success by visualizing skills, tracking growth, and bridging communication gaps with clients.
+              Empowers freelancers&apos; confidence and career success by visualizing skills, tracking growth, and bridging communication gaps with clients.
             </p>
           </div>
           <Image src="/Product.png" alt="Product Display" width={900} height={300} />
@@ -66,7 +66,7 @@ export default function FullPageScroll() {
             <div className="flex gap-12 items-center min-w-[800px]">
               <Image src="/UserStory1.png" alt="Image 1" width={300} height={300} className="rounded-lg" />
               <p className="text-xl text-gray-300 mt-4 text-center w-[400px]">
-                I love my job and I’m proud of the quality of work I produce for clients.
+                I love my job and I&apos;m proud of the quality of work I produce for clients.
               </p>
             </div>
             {/* 第二組 */}

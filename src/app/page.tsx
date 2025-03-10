@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     router.push("/Homepage"); // 當訪問 `/`，自動跳轉到 `/Homepage`
-  }, []);
+  }, [router]);
   return null; // 不需要顯示任何內容，因為會立刻跳轉
 }
 
